@@ -1,0 +1,46 @@
+﻿@model List<BugTracker.Models.RoleViewModel>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    var users = UserManager.Users.ToList();
+}
+@using Microsoft.AspNetCore.Identity
+@using BugTracker.Areas.Identity.Data
+
+@inject UserManager<ApplicationUser> UserManager
+
+<div class="d-flex flex-column col-10 mt-5 ml-auto mr-auto">
+    <h1>User Roles</h1>
+    <table id="roleTab" class="table datatable table-striped">
+        <thead>
+            <tr>
+                <th>First Name</th>
+                <th>Last Name</th>
+                <th>Email</th>
+                <th>Role</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody id="roleTabBody">
+            @foreach (var user in Model)
+            {
+                <tr>
+                    <td>@user.FirstName</td>
+                    <td>@user.LastName</td>
+                    <td>@user.Email</td>
+                    <td> @string.Join(" , ", user.Roles.ToList())</td>
+                    <td>
+                        <a id="@user.UserId" class="roleBtn btn btn-primary text-white"> Manage Role </a>
+
+
+                    </td>
+                </tr>
+            }
+            <partial name="_RoleManagePopup.cshtml" />
+
+        </tbody>
+
+    </table>
+</div>

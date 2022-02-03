@@ -1,0 +1,135 @@
+﻿@using Microsoft.AspNetCore.Identity
+@using BugTracker.Areas.Identity.Data
+
+@model BugTracker.Models.ProjectModel
+@inject UserManager<ApplicationUser> UserManager
+
+@{
+    ViewData["Title"] = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<div class="row col-12 ml-auto card mr-auto m-3 mb-0 p-0">
+    <div class="card-header row bg-info">
+        <div class="col-6">
+        <h5 class="font-weight-bold font-italic">Project Details</h5>
+        <p class="m-0">All you need to know about this project</p>
+            </div>
+        <div class="col-4">
+            @if (User.IsInRole("Admin")|| User.IsInRole("Demo Admin"))
+            {
+            <partial name="_NewProjectPopup.cshtml" />
+            <a asp-controller="Project" asp-action="Update" asp-route-id="@Model.Id" class="btn btm-primary projectUpdateBtn" id="@Model.Id">Edit</a>
+            }
+        </div>
+    </div>
+    <div class="card-body">
+        <div class="row">
+            <div class="col-6">
+                <h5 class="font-weight-bold font-italic">Project title</h5>
+                <p class="prTitle">@Model.Title</p>
+            </div>
+            <div class="col-6">
+                <h5 class="font-weight-bold font-italic">Description</h5>
+                <p class="prDescription">@Model.Description</p>
+            </div>
+        </div>
+        <hr />
+        <div class="row">
+            <div class="col-5 card p-2 border-0 mt-1">
+                <div class="card-header bg-info">
+                    <h5 class="m-0 font-italic font-weight-bold">Assigned Personel For This Project</h5>
+                </div>
+                <div class="card-body">
+                    <form method="post">
+                        <table class="table datatable personelTable">
+                            <thead>
+                                <tr>
+                                    <th>Full Name</th>
+                                    <th>Email</th>
+                                    <th>Role</th>
+                                    @if (User.IsInRole("Admin")||User.IsInRole("Demo Admin"))
+                                    {
+                                    <th>Action</th>
+                                    }
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in Model.AssignedPersonel)
+                                {
+                                    var roles = await UserManager.GetRolesAsync(item);
+                                <tr>
+                                    <td>@item.FirstName @item.LastName</td>
+                                    <td>@item.Email</td>
+                                    <td>@roles[0]</td>
+                                    @if (User.IsInRole("Admin")|| User.IsInRole("Demo Admin"))
+                                    {
+                                        <td>
+
+                                            <button type="submit" class="btn btn-danger delPersonel" asp-controller="Project" asp-action="RemovePersonel" id="@item.Id,@Model.Id">
+                                                <i class="fas fa-trash-alt"></i>
+                                            </button>
+                                        </td>
+                                    }
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                        </form>
+                </div>
+            </div>
+            <div class="col-7 card p-2 mt-1 border-0 ml-auto">
+                
+                    <div class="card-header row bg-info">
+                        <h5 class="m-0 font-italic font-weight-bold col-6">Tickets For This Project</h5>
+                        @if (User.IsInRole("Admin")|| User.IsInRole("Demo Admin"))
+                        {
+                        <partial name="/Views/Ticket/_TicketPopup.cshtml" />
+                        <a asp-controller="Ticket" asp-action="Create" id="@Model.Id" class="createTicketBtn btn col-2">Add Ticket</a>
+                        }
+                    </div>
+                    <div class="card-body">
+                        <table class="table datatable ticketTable">
+                            <thead>
+                                <tr>
+                                    <th>Title</th>
+                                    <th>Priority</th>
+                                    <th>Status</th>
+                                    <th>Assigned To</th>
+                                    <th>Created</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @if (Model.Tickets != null)
+                                {
+                                    @foreach (var item in Model.Tickets)
+                                    {
+                                        
+                                        var devFirst = UserManager.FindByIdAsync(item.AssignedDevId).Result.FirstName;
+                                        var devLast = UserManager.FindByIdAsync(item.AssignedDevId).Result.LastName;
+
+                                        <tr>
+                                            <td>@item.Title</td>
+                                            <td>@item.Priority</td>
+                                            <td>@item.Status</td>
+                                            <td>@devFirst @devLast</td>
+                                            <td>@item.Created</td>
+                                            <td>
+                                                <a asp-action="Details" asp-controller="Ticket" asp-route-ticketId="@item.Id" asp-route-projectId="@Model.Id" class="btn btn-primary">
+                                                    <i class="fas fa-info"></i>
+                                                </a>
+                                            </td>
+                                        </tr>
+                                    }
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                
+            </div>
+    </div>
+</div>
+
+</div>

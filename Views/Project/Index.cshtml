@@ -1,0 +1,50 @@
+﻿@model IEnumerable<BugTracker.Models.ProjectModel>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+}
+
+
+<div class="d-flex flex-column col-10 mt-5 ml-auto mr-auto">
+    <h1>Projects List</h1>
+    <a class="projectBtn btn btn-primary col-2 text-white mb-4">Create New Project</a>
+    <partial name="_NewProjectPopup.cshtml" />
+    <form method="post">
+    <table class="table datatable prIndex">
+        <thead>
+            <tr>
+                <th width="40%">Title</th>
+                <th width="40%">Description</th>
+                <th width="20%"> Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>@item.Title</td>
+                        <td>@item.Description</td>
+                        <td>
+                            <a asp-controller="Project" asp-action="Details" asp-route-id="@item.Id" class="btn btn-primary text-white">
+                                Details
+                                <i class="fas fa-info"></i>
+                            </a>
+                            <button type="submit" asp-controller="Project" asp-action="Delete" class="btn btn-danger text-white delProject" id="@item.Id">
+                                Delete
+                                <i class="fas fa-trash-alt"></i>
+                            </button>
+                        </td>
+                    </tr>
+                }
+            
+          
+
+        </tbody>
+
+    </table>
+        </form>
+
+</div>

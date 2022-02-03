@@ -1,0 +1,94 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+}
+
+<div class="offset-1 col-10"style="height:35%">
+    <div id="chartContainer"></div>
+</div>
+
+<div class="row mt-5">
+    <div id="chartContainer2" class="m-5 col-3" style="height:100%">sadasdasd</div>
+    <div id="chartContainer3" class="m-5 col-3" style="height:100%">sadasdasd</div>
+    <div id="chartContainer4" class="m-5 col-3" style="height:100%">sadasdasd</div>
+</div>
+
+
+
+
+<script type="text/javascript">
+	window.onload = function () {
+
+		var chart = new CanvasJS.Chart("chartContainer", {
+			animationEnabled: true,
+			title: {
+				text: "Tickets By Projects"
+            },
+
+			axisY: {
+				title: "Number of tickets",
+				gridThickness: 0
+			},
+			data: [{
+				bevelEnabled:false,
+				type: "bar",
+				indexLabel: "{y}",
+				dataPoints: @Html.Raw(ViewBag.TicketsByProjectDataPoints)
+		}]
+		});
+
+		var chart2 = new CanvasJS.Chart("chartContainer2", {
+	animationEnabled: true,
+	theme: "light2", // "light1", "light2", "dark1", "dark2"
+	title: {
+		text: "Tickets By Type"
+	},
+	axisY: {
+		title: "No. of Tickets"
+	},
+	data: [{
+		type: "column",
+		dataPoints: @Html.Raw(ViewBag.TicketsByTypeDataPoints)
+	}]
+		});
+
+			var chart3 = new CanvasJS.Chart("chartContainer3", {
+	animationEnabled: true,
+	theme: "light2", // "light1", "light2", "dark1", "dark2"
+	title: {
+		text: "Tickets By Priority"
+	},
+	axisY: {
+		title: "No. of Tickets"
+	},
+	data: [{
+		type: "column",
+		dataPoints: @Html.Raw(ViewBag.TicketsByPriorityDataPoints)
+	}]
+			});
+
+	var chart4 = new CanvasJS.Chart("chartContainer4", {
+	animationEnabled: true,
+	theme: "light2",
+	title: {
+		text: "Tickets By Status"
+	},
+
+	data: [{
+		type: "pie",
+		
+		toolTipContent: "{name}: <strong>{y}%</strong>",
+		startAngle: -45,
+		indexLabel: "{label} ({y})",
+		indexLabelFontColor: "#12122B",
+		indexLabelPlacement: "inside",
+		indexLabelFontSize: 15,
+		dataPoints: @Html.Raw(ViewBag.TicketsByStatusDataPoints)
+	}]
+});
+
+		chart.render();
+		chart2.render();
+		chart3.render();
+		chart4.render();
+	};
+</script>

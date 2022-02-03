@@ -1,0 +1,9 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<parameters>
+  <parameter name="IIS Web Application Name" description="" value="BugTracker20220202143536" tags="IisApp">
+    <parameterEntry kind="ProviderPath" scope="IisApp" match="^C:\\Programowanie\\C\#\\BugTracker\\obj\\Release\\net5\.0\\PubTmp\\Out\\$" />
+  </parameter>
+  <parameter name="BugTracker.Data.ApplicationDbContext" description="" value="Data Source=tcp:bugtrackerdbserver.database.windows.net,1433;Initial Catalog=BugTracker_db;User Id=zarpatu19@bugtrackerdbserver;Password=Patrykz19" tags="dbfullsql">
+    <parameterEntry kind="ProviderPath" scope="dbfullsql" match="^C:\\Programowanie\\C\#\\BugTracker\\obj\\Release\\net5\.0\\PubTmp\\EFSQLScripts\\BugTracker\.Data\.ApplicationDbContext\.sql$" />
+  </parameter>
+</parameters>

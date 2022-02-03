@@ -1,0 +1,34 @@
+﻿@model BugTracker.Models.ManageRoleViewModel
+
+@using Microsoft.AspNetCore.Identity 
+@using BugTracker.Areas.Identity.Data
+@using Microsoft.AspNetCore.Identity.EntityFrameworkCore 
+
+@inject UserManager<ApplicationUser> UserManager
+
+@{
+    ViewData["Title"] = "Manage";
+    Layout = null;
+    
+       
+}
+
+<form method="post" asp-controller="Role" asp-action="Manage">
+    <div class="row">
+        <div class="col-6">
+            <h4>@ViewBag.FirstName @ViewBag.LastName</h4>
+
+            <div class="form-group">
+                <select class="mb-4 mt-3" id="roleList" name="roleSelect" asp-items="@new SelectList(Model.RoleNames)">
+                    <option selected disabled>---Select New Role---</option>
+                </select>
+
+               
+                <input id="@Model.UserId" class="btn btn-primary saveRole" type="submit" value="Submit" asp-controller="Role" asp-action="Manage" asp-route-userId="@Model.UserId" />
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div> 
+        </div>
+    </div>
+</form>
+
+

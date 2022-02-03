@@ -1,0 +1,50 @@
+﻿@using BugTracker.Areas.Identity.Data
+@using Microsoft.AspNetCore.Identity
+
+@model BugTracker.Models.ProjectModel
+@{
+    ViewData["Title"] = "Create";
+    Layout = null;
+    var users = UserManager.Users.ToList();
+    
+
+    var usersDict = new Dictionary<string, string>();
+    foreach (ApplicationUser user in users)
+    {
+        usersDict.Add(user.Id, user.FirstName + " " + user.LastName + " || " + user.Email);
+    }
+}
+@inject UserManager<ApplicationUser> UserManager
+
+
+
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" href="~/css/chosen.css" />
+    
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    <script src="~/js/chosen.jquery.js"></script>
+    
+</head>
+<body>
+    
+
+    <form method="post" asp-controller="Project" asp-action="Create">
+        <div class="mb-3">
+            <label class="form-label">Title</label>
+            <input asp-for="@Model.Title" name="prTitle" id="projectTitle" class="form-control">
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Description</label>
+            <textarea name="prDescription" id="projectDescription" asp-for="@Model.Description" class="form-control"></textarea>
+        </div>
+        <select name="UsersId" id="personelSelect" asp-items='@new MultiSelectList(usersDict,"Key","Value")' class="chosen p-3 form-control" multiple="true" style="width:400px;">
+        </select>
+
+        <button class="submitProject" type="submit" asp-controller="Project" asp-action="Create">Submit</button>
+    </form>
+</body>
+</html>

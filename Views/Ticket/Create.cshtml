@@ -1,0 +1,54 @@
+﻿@model BugTracker.Models.TicketModel
+
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+
+    <meta name="viewport" content="width=device-width" />
+    <title>Create</title>
+</head>
+<body>
+
+    <form method="post">
+        <div class="mb-3">
+            <label class="form-label">Title</label>
+            <input id="ticketTitle" class="form-control">
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Description</label>
+            <textarea id="ticketDescription" asp-for="@Model.Description" class="form-control"></textarea>
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Assign To</label>
+            <select class="form-control devSelect" asp-items='@new SelectList(Model.DevsForThisProject,"Key","Value")'>
+                <option hidden>...Select Dev...</option>
+            </select>
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Priority</label>
+            <select class="form-control prioritySelect" asp-items="Html.GetEnumSelectList<TicketModel.PriorityType>()">
+                <option hidden>...Select Priority...</option>
+            </select>
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Type</label>
+            <select class="form-control typeSelect"  asp-items="Html.GetEnumSelectList<TicketModel.BugType>()">
+                <option hidden>...Select Type...</option>
+            </select>
+        </div>
+
+
+        <button class="submitTicketBtn form-control btn-success col-3" type="submit" asp-controller="Ticket" asp-action="Create">Submit</button>
+    </form>
+
+</body>
+</html>

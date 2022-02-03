@@ -1,0 +1,109 @@
+﻿@using Microsoft.AspNetCore.Identity
+@using BugTracker.Areas.Identity.Data
+
+@inject UserManager<ApplicationUser> UserManager
+@model BugTracker.Models.TicketModel
+
+@{
+    ViewData["Title"] = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    var devFirst = UserManager.FindByIdAsync(Model.AssignedDevId).Result.FirstName;
+    var devLast = UserManager.FindByIdAsync(Model.AssignedDevId).Result.LastName;
+
+    var submitterFirst = UserManager.FindByIdAsync(Model.SubmitterId).Result.FirstName;
+    var submitterLast = UserManager.FindByIdAsync(Model.SubmitterId).Result.LastName;
+}
+
+<div class="row">
+    <div class="card m-3 col-6">
+        <div class="card-header row bg-info">
+            <div class="col-6">
+                <h5 class="font-weight-bold font-italic">Ticket Details</h5>
+                <p class="m-0">All you need to know about this ticket</p>
+            </div>
+            @if (User.IsInRole("Admin")||User.IsInRole("Demo Admin"))
+            {
+                <div class="row col-4">
+                    <partial name="/Views/Ticket/_TicketPopup.cshtml" />
+                    <a id="@Model.Id" class="updateTicketBtn btn">Edit</a>
+                </div>
+            }
+        </div>
+
+        <div class="card-body" id="ticketCard">
+            <div class="row">
+                <div class="col-6">
+                    <h5 class="font-weight-bold font-italic">Title</h5>
+                    <p class="ticketTitle">@Model.Title</p>
+                </div>
+                <div class="col-6 ">
+                    <h5 class="font-weight-bold font-italic">Description</h5>
+                    <p class="ticketDescription">@Model.Description</p>
+                </div>
+            </div>
+            <hr />
+            <div class="row">
+                <div class="col-6">
+                    <h5 class="font-weight-bold font-italic">Status</h5>
+                    <p class="ticketStatus">@Model.Status</p>
+                </div>
+                <div class="col-6 ">
+                    <h5 class="font-weight-bold font-italic">Type</h5>
+                    <p class="ticketType">@Model.Type</p>
+                </div>
+            </div>
+            <hr />
+            <div class="row">
+                <div class="col-6">
+                    <h5 class="font-weight-bold font-italic">Assigned To</h5>
+                    <p class="ticketDev">@devFirst @devLast</p>
+                </div>
+                <div class="col-6 ">
+                    <h5 class="font-weight-bold font-italic">Priority</h5>
+                    <p class="ticketPriority">@Model.Priority</p>
+                </div>
+            </div>
+            <hr />
+            <div class="row">
+                <div class="col-6">
+                    <h5 class="font-weight-bold font-italic">Created</h5>
+                    <p class="ticketCreated">@Model.Created</p>
+                </div>
+                <div class="col-6 ">
+                    <h5 class="font-weight-bold font-italic">Submitted By</h5>
+                    <p class="ticketSubmitter">@submitterFirst @submitterLast</p>
+                </div>
+            </div>
+            <hr />
+        </div>
+    </div>
+
+    <div class="col-5 m-3 ml-4 overflow-auto" id="commentDiv" style="max-height:550px">
+        <h5 class="mt-4">Comments</h5>
+        <div class="input-group mb-3">
+            <input type="text" class="form-control form-control-lg" id="commentText" placeholder="Leave a comment here" aria-label="Comment" aria-describedby="button-addon2">
+            <button class="btn btn-outline-secondary commentBtn" type="button" id="@Model.Id">Button</button>
+        </div>
+        @if(Model.Comments!=null)
+        {
+            foreach(var comment in Model.Comments)
+                {
+                    <div class="m-3 mt-4">
+                        <h5 class="font-weight-bold">@UserManager.FindByIdAsync(comment.UserId).Result.FirstName @UserManager.FindByIdAsync(comment.UserId).Result.LastName
+                            <small class="text-muted">@comment.Date.ToString("dddd, dd MMMM yyyy H:mm")</small>
+                        </h5>
+                        <p>@comment.Text</p>
+                        <hr />
+                    </div>
+                }
+        }
+    </div>
+
+    <div class="row">
+        @if (Model.Status == TicketModel.StatusType.Finished)
+        {
+            <h1 class="m-4"><i class="fas fa-check-circle"></i><strong>Finished: </strong>@Model.Finished</h1>
+        }
+    </div>
+</div>

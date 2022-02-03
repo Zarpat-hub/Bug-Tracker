@@ -1,0 +1,72 @@
+﻿@using Microsoft.AspNetCore.Identity
+@using BugTracker.Areas.Identity.Data
+
+
+@inject UserManager<ApplicationUser> UserManager
+@model IEnumerable<BugTracker.Models.TicketModel>
+
+@{
+    ViewData["Title"] = "AssignedIndex";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+}
+
+
+<div class="d-flex flex-column col-10 mt-5 ml-auto mr-auto">
+    <h1>All tickets in database</h1>
+    <form method="post">
+        <table class="table datatable ticketIndex">
+            <thead>
+                <tr>
+                    <th>Title</th>
+                    <th>Priority</th>
+                    <th>Status</th>
+                    <th>Project</th>
+                    <th>Submitter</th>
+                    <th>Created</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (Model.Count()>0)
+                {
+                    @foreach (var item in Model)
+                    {
+
+                        var submitterFirst = UserManager.FindByIdAsync(item.SubmitterId).Result.FirstName;
+                        var submitterLast = UserManager.FindByIdAsync(item.SubmitterId).Result.LastName;
+                        
+
+                        <tr>
+                            <td>@item.Title</td>
+                            <td>@item.Priority</td>
+                            <td class="ticketStatus">@item.Status</td>
+                            <td><a asp-action="Details" asp-controller="Project" asp-route-id="@item.ProjectId">@item.ProjectName</a></td>
+                            <td>@submitterFirst @submitterLast</td>
+                            <td>@item.Created</td>
+                            <td>
+                                <a asp-action="Details" asp-controller="Ticket" asp-route-ticketId="@item.Id" asp-route-projectId="@item.ProjectId" class="btn btn-primary">
+                                    <i class="fas fa-info"></i>
+                                </a>
+                                @if (item.Status == TicketModel.StatusType.Reported_As_done)
+                                {
+                                    <button type="submit" id="@item.Id" class="acceptTicketBtn btn btn-success">
+                                        <i class="fas fa-check"></i>
+                                    </button>
+                                    <button type="submit" id="@item.Id" class="rejectTicketBtn btn btn-danger">
+                                        <i class="fas fa-times"></i>
+                                    </button>
+                                }
+                            </td>
+                        </tr>
+                    }
+                }
+            </tbody>
+
+        </table>
+    </form>
+
+</div>
+
+
+

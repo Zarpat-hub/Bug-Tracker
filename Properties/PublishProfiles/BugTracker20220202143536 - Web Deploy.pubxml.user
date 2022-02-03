@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+Ten plik jest wykorzystywany przez proces publikowania/pakowania projektu internetowego. Możesz dostosować zachowanie tego procesu
+ poprzez edycję tego pliku MSBuild. Aby dowiedzieć się więcej o tym działaniu, odwiedź stronę https://go.microsoft.com/fwlink/?LinkID=208121. 
+-->
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <TimeStampOfAssociatedLegacyPublishXmlFile />
+    <EncryptedPassword>AQAAANCMnd8BFdERjHoAwE/Cl+sBAAAAl+LjuVY+eUG/xPuIhZNe7gAAAAACAAAAAAAQZgAAAAEAACAAAACgOnTQW9Ch32yUU95r0ACWzz7v9GjZVsDwCPujZ6WVMQAAAAAOgAAAAAIAACAAAAAixblCPooe61toCu5/RU3ViQ+h+/WBRxp4PRPJt7M48IAAAADvP1ICMWW19RAUQoQKjl93hi/qib+xCpUm4hQjk9RsB1gW4OXNLB9g0rtlfU/Kwb1hzzgfdCV9LG2zDGOKCCNNMQbYtd3MNy+CxUfMZ1bduswdhroWuY6KgXvRoZ28hycx1QewPfeOe6VBwES8X7GQ4D3FCzHf5hWQL3eQOOvU+0AAAADPl4nLpCaqzYUFpfxZo4ZbFZ9qkFAM/LNUqWO7ZGn9/bEYWouiHet0X+AngoudVoH0dhqp6oc0iUAkSI+xhFy8</EncryptedPassword>
+    <History>True|2022-02-02T14:01:53.1776203Z;</History>
+  </PropertyGroup>
+  <ItemGroup>
+    <DestinationConnectionStrings Include="ApplicationDbContextConnection">
+      <Value>Data Source=tcp:bugtrackerdbserver.database.windows.net,1433%3bInitial Catalog=BugTracker_db%3bUser Id=zarpatu19%40bugtrackerdbserver%3bPassword=Patrykz19</Value>
+    </DestinationConnectionStrings>
+  </ItemGroup>
+  <ItemGroup>
+    <EFMigrations Include="BugTracker.Data.ApplicationDbContext">
+      <Value>Data Source=tcp:bugtrackerdbserver.database.windows.net,1433%3bInitial Catalog=BugTracker_db%3bUser Id=zarpatu19%40bugtrackerdbserver%3bPassword=Patrykz19</Value>
+    </EFMigrations>
+  </ItemGroup>
+</Project>
