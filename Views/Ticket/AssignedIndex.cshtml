@@ -44,7 +44,7 @@
                                 <a asp-action="Details" asp-controller="Ticket" asp-route-ticketId="@item.Id" asp-route-projectId="@item.ProjectId" class="btn btn-primary">
                                     <i class="fas fa-info"></i>
                                 </a>
-                                @if (item.Status == TicketModel.StatusType.Finished)
+                                @if (item.Status == TicketModel.StatusType.Open)
                                 {
                                 <button type="submit" id="@item.Id" class="doneTicketRequestBtn btn btn-success">
                                     <i class="fas fa-check"></i>
