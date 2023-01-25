@@ -66,7 +66,6 @@ namespace BugTracker
                 endpoints.MapRazorPages();
             });
 
-
             CreateRoles(serviceProvider);
         }
 
